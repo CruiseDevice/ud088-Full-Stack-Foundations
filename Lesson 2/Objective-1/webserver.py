@@ -72,7 +72,9 @@ class webServerHandler(BaseHTTPRequestHandler):
                 for item in result:
                     # print item[0]
                     output += item.name
-                    output += "<br/>"
+                    output += "<br/><a href = '#'>Edit</a><br/>"
+                    output += "<a href = '#'>Delete</a></br/>"
+                    output += "<br/><br/><br/>"
 
                 output += "</body></html>"
                 self.wfile.write(output)
