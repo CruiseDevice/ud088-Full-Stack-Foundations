@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request, url_for, redirect, flash
+from flask import Flask,render_template,request, url_for, redirect, flash, jsonify
 from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
@@ -13,6 +13,22 @@ Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+
+
+@app.route('/restaurants/<int:restaurant_id>/menu/JSON')
+def restaurantMenuJSON(restaurant_id):
+    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
+    items = session.query(MenuItem).filter_by(
+        restaurant_id = restaurant_id
+    ).all()
+    return jsonify(MenuItems=[i.serialize for i in items])
+
+@app.route('/restaurants/<int:restaurant_id>/menu/<int:menu_id>/JSON')
+def restaurantMenuItemJSON(restaurant_id,menu_id):
+    restaurantItem = session.query(Restaurant).filter_by(id=restaurant_id).one()
+    Item = session.query(MenuItem).filter_by(restaurant_id=restaurant_id,id=menu_id).all()
+    return jsonify(MenuItems=[i.serialize for i in Item])
+
 
 @app.route('/restaurants/')
 def firstPage():
