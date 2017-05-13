@@ -1,5 +1,8 @@
 from flask import Flask,render_template,request, url_for, redirect, flash
+from flask_bootstrap import Bootstrap
+
 app = Flask(__name__)
+Bootstrap(app)
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
